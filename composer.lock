@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d33972b7662c3c1e1b9af09a2241cbf",
+    "content-hash": "4554db84a2f7e7f2ae312b671fa20838",
     "packages": [
         {
             "name": "cakephp/chronos",
@@ -2002,16 +2002,16 @@
         },
         {
             "name": "james.xue/laravel-eloquent-filter",
-            "version": "1.1.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xiaoxuan6/laravel-eloquent-filter.git",
-                "reference": "ff9e612d520f99cfadec2e93a99c85d787f79be7"
+                "reference": "8f8691200f84ecf3c47bde208040463a762b928b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xiaoxuan6/laravel-eloquent-filter/zipball/ff9e612d520f99cfadec2e93a99c85d787f79be7",
-                "reference": "ff9e612d520f99cfadec2e93a99c85d787f79be7",
+                "url": "https://api.github.com/repos/xiaoxuan6/laravel-eloquent-filter/zipball/8f8691200f84ecf3c47bde208040463a762b928b",
+                "reference": "8f8691200f84ecf3c47bde208040463a762b928b",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2022,7 +2022,6 @@
             },
             "require": {
                 "illuminate/database": "~5.0",
-                "illuminate/filesystem": "~5.0",
                 "illuminate/support": "~5.0",
                 "php": ">=7.0"
             },
@@ -2058,7 +2057,17 @@
                 "query",
                 "search"
             ],
-            "time": "2019-10-16T03:52:34+00:00"
+            "funding": [
+                {
+                    "url": "http://james.dmzfa.com/about",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.paypal.me/xuexiaoxuan",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-06-11T12:51:31+00:00"
         },
         {
             "name": "james.xue/laravel-sortable",
