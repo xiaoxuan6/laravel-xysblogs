@@ -11,6 +11,7 @@ namespace App\Exceptions;
 
 use Lib\Tool;
 use Exception;
+use Illuminate\Http\{JsonResponse, Request, Response};
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
@@ -41,18 +42,19 @@ class Handler extends ExceptionHandler
      *
      * @param Exception $exception
      * @return void
+     * @throws Exception
      */
     public function report(Exception $exception)
     {
-        if (! env('APP_DEBUG') && $exception->getMessage()) {
-            // 获取本地日志
-            $command = 'cat ' . storage_path('logs/laravel-' . date('Y-m-d') . '.log');
-            $command .= ' | grep local.ERROR: | head -10';
-            exec($command, $logs);
+        /* if (! env('APP_DEBUG') && $exception->getMessage()) {
+             // 获取本地日志
+             $command = 'cat ' . storage_path('logs/laravel-' . date('Y-m-d') . '.log');
+             $command .= ' | grep local.ERROR: | head -10';
+             exec($command, $logs);
 
-            $data = end($logs);
-            Tool::sendEmail('您收到一封博客报错邮件', $data, env('MAIL_RECEVIE_USER', '1527736751@qq.com'));
-        }
+             $data = end($logs);
+             Tool::sendEmail('您收到一封博客报错邮件', $data, env('MAIL_RECEVIE_USER', '1527736751@qq.com'));
+         }*/
 
         parent::report($exception);
     }
@@ -60,9 +62,9 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param Exception $exception
-     * @return \Illuminate\Http\Response
+     * @return Response|JsonResponse
      */
     public function render($request, Exception $exception)
     {

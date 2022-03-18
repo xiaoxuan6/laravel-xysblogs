@@ -18,6 +18,9 @@ $finder = PhpCsFixer\Finder::create()
         __DIR__ . '/resources',
         __DIR__ . '/server.php'
     ])
+    ->exclude([
+        __DIR__ . '/resources/*/*.php'
+    ])
     ->name('*.php')
     ->notName('*.blade.php')
     ->ignoreDotFiles(true)

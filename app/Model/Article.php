@@ -9,6 +9,7 @@
  */
 namespace App\Model;
 
+use Request;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
@@ -90,7 +91,7 @@ class Article extends Model
 
     public function getContentAttribute($value)
     {
-        $string = \Request::getRequestUri();
+        $string = Request::getRequestUri();
 
         if (Str::startsWith($string, '/admins') || Str::startsWith($string, '/articles')) {
             return $value;
