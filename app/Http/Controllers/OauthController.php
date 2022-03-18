@@ -1,13 +1,18 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Http\Controllers;
 
+use Hash;
 use App\Model\Oauth;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Session;
 use Overtrue\LaravelSocialite\Socialite;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\{Artisan, Auth, Session};
 
 class OauthController extends Controller
 {
@@ -30,7 +35,7 @@ class OauthController extends Controller
     {
         $github_user = Socialite::driver('web_github')->user();
 
-        Oauth::firstOrCreate(['username' => $github_user->username],[
+        Oauth::firstOrCreate(['username' => $github_user->username], [
             'github_id' => $github_user->id,
             'username' => $github_user->username,
             'name' => $github_user->name,
@@ -40,7 +45,7 @@ class OauthController extends Controller
             'blog' => $github_user->original['blog'],
             'company' => $github_user->original['company'],
             'original' => $github_user->original,
-            'password' => \Hash::make('123456'),
+            'password' => Hash::make('123456'),
         ]);
 
         $data = [
@@ -53,11 +58,10 @@ class OauthController extends Controller
                 'image' => $github_user->avatar
             ]);
             $url = Session::get('url');
-            return redirect($url);
-        } else {
-            dd('登录失败');
-        }
 
+            return redirect($url);
+        }
+        dd('登录失败');
     }
 
     /**
@@ -77,6 +81,7 @@ class OauthController extends Controller
     public function logout()
     {
         $this->guard()->logout();
+
         return ['code' => 200, 'msg' => '退出成功！'];
     }
 }

@@ -1,16 +1,20 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Admin\Controllers;
 
+use App\Model\{GithubUser, Oauth};
 use App\Http\Controllers\Controller;
-use App\Model\GithubUser;
-use App\Model\Oauth;
-use Encore\Admin\Controllers\HasResourceActions;
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
 //use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
+use Encore\Admin\{Form, Grid, Show};
 use James\Admin\Breadcrumb\Layout\Content;
+use Encore\Admin\Controllers\HasResourceActions;
 
 class GithubUserController extends Controller
 {
@@ -33,7 +37,7 @@ class GithubUserController extends Controller
     /**
      * Show interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -48,7 +52,7 @@ class GithubUserController extends Controller
     /**
      * Edit interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -84,7 +88,7 @@ class GithubUserController extends Controller
         $grid = new Grid(new Oauth());
 
         $grid->id('ID')->sortable();
-        $grid->avatar('头像')->image('',30,30);
+        $grid->avatar('头像')->image('', 30, 30);
         $grid->username('昵称');
         $grid->name('姓名');
         $grid->email('邮箱')->prependIcon('envelope');
@@ -101,13 +105,14 @@ class GithubUserController extends Controller
         $grid->disableFilter();
         $grid->disableActions();
         $grid->disableCreateButton();
+
         return $grid;
     }
 
     /**
      * Make a show builder.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @return Show
      */
     protected function detail($id)
@@ -128,8 +133,6 @@ class GithubUserController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Oauth());
-
-        return $form;
+        return new Form(new Oauth());
     }
 }

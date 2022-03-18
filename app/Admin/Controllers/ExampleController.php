@@ -1,13 +1,18 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Admin\Controllers;
 
-use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\HasResourceActions;
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
+use App\Http\Controllers\Controller;
+use Encore\Admin\{Form, Grid, Show};
+use Encore\Admin\Controllers\HasResourceActions;
 
 class ExampleController extends Controller
 {
@@ -30,7 +35,7 @@ class ExampleController extends Controller
     /**
      * Show interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -45,7 +50,7 @@ class ExampleController extends Controller
     /**
      * Edit interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -78,7 +83,7 @@ class ExampleController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new YourModel);
+        $grid = new Grid(new YourModel());
 
         $grid->id('ID')->sortable();
         $grid->created_at('创建时间');
@@ -91,13 +96,14 @@ class ExampleController extends Controller
             // 详情
             $actions->disableView();
         });
+
         return $grid;
     }
 
     /**
      * Make a show builder.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @return Show
      */
     protected function detail($id)
@@ -118,7 +124,7 @@ class ExampleController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new YourModel);
+        $form = new Form(new YourModel());
         $form->tools(function (Form\Tools $tools) {
             // 去掉`列表`按钮
             $tools->disableList();
@@ -143,6 +149,7 @@ class ExampleController extends Controller
             // 去掉`继续创建`checkbox
             $footer->disableCreatingCheck();
         });
+
         return $form;
     }
 }

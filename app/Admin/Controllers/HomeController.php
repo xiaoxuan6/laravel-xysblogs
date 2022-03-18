@@ -1,15 +1,20 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Admin\Controllers;
 
+use File;
+use Encore\Admin\Widgets\Box;
+use Illuminate\Container\Container;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\Dashboard;
-use Encore\Admin\Layout\Column;
-use Encore\Admin\Layout\Content;
-use Encore\Admin\Layout\Row;
-use Encore\Admin\Widgets\Box;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Container\Container;
+use Encore\Admin\Layout\{Column, Content, Row};
 
 class HomeController extends Controller
 {
@@ -18,11 +23,10 @@ class HomeController extends Controller
         return $content
             ->header('首页')
             ->row(function (Row $row) {
-
                 $row->column(8, function (Column $column) {
                     $column->append(Dashboard::environment());
                 });
-                $row->column(4, function(Column $column){
+                $row->column(4, function (Column $column) {
                     $form = new \Encore\Admin\Widgets\Form();
                     $form->action(admin_base_path('/notice/create'));
                     $form->method('post');
@@ -31,21 +35,21 @@ class HomeController extends Controller
                     $form->textarea('name', '内容')->rules('required')->required()->default($notice);
                     $form->hidden('_token')->default(csrf_token());
                     $form->disableReset();
-                    $column->append((new Box("公告", $form))->style('success'));
+                    $column->append((new Box('公告', $form))->style('success'));
                 });
-
             });
     }
 
     public function notice(\Illuminate\Http\Request $request)
     {
         $name = $request->input('name');
-        if(!$name){
+        if (! $name) {
             admin_toastr('请输入内容', 'success');
+
             return redirect()->back();
         }
 
-        $data = ['NOTICE' => '"'.$name.'"'];
+        $data = ['NOTICE' => '"' . $name . '"'];
         $contentArray = $this->getEnvFile();
         $content = $contentArray->transform(function ($item) use ($data) {
             foreach ($data as $key => $value) {
@@ -53,11 +57,12 @@ class HomeController extends Controller
                     return $key . '=' . $value;
                 }
             }
+
             return $item;
         });
         $content = implode($content->toArray(), "\n");
 
-        \File::put(self::getEnvFilePath(), $content);
+        File::put(self::getEnvFilePath(), $content);
         admin_toastr('操作成功', 'success');
 
         return redirect('/admins');
@@ -82,5 +87,4 @@ class HomeController extends Controller
     {
         return collect(file(self::getEnvFilePath(), FILE_IGNORE_NEW_LINES));
     }
-
 }

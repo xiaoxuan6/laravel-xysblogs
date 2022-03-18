@@ -1,26 +1,23 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Http\Controllers;
 
-use App\Filter\ArticleFilter;
-use App\Filter\DiscussFilter;
-use App\Http\Requests\LinkRequest;
-use App\Http\Requests\MessageRequest;
-use App\Model\Book;
-use App\Model\Discuss;
-use App\Model\Link;
-use App\Model\Project;
-use App\Services\ArticleRecordService;
-use App\Services\ArticleService;
-use App\Services\EchartsService;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use App\Model\Label;
-use App\Model\Article;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Str;
 use Packagist\Api\Client;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\{Auth, Redis};
+use App\Filter\{ArticleFilter, DiscussFilter};
+use App\Http\Requests\{LinkRequest, MessageRequest};
+use App\Model\{Article, Book, Discuss, Label, Link, Project};
+use App\Services\{ArticleRecordService, ArticleService, EchartsService};
 
 class IndexController extends Controller
 {
@@ -54,18 +51,19 @@ class IndexController extends Controller
         /**
          * 模糊查询如果没有数据使用TNTSearch 全文搜索
          */
-        if(!$data)
-            $data = Article::search($request->input('keywords',''))->get();
+        if (! $data) {
+            $data = Article::search($request->input('keywords', ''))->get();
+        }
 
         $label = Label::status()->get(['title', 'id']);
 
-        foreach ($data as $v){
+        foreach ($data as $v) {
             $v->label_id = $label->whereIn('id', $v->label_id)->values()->pluck('title');
-            $v->point_num = $this->redis->get('likes_count'.$v->id) ?? 0;
+            $v->point_num = $this->redis->get('likes_count' . $v->id) ?? 0;
             $v->status_like = $this->redis->sismember($v->id, $ip);
         }
 
-        return view('home.index',compact('tag','data','filter'));
+        return view('home.index', compact('tag', 'data', 'filter'));
     }
 
     /**
@@ -78,21 +76,23 @@ class IndexController extends Controller
     {
         $ip = $request->getClientIp();
 
-        if(!$article = Article::where('slug', $slug)->first())
+        if (! $article = Article::where('slug', $slug)->first()) {
             return view('error.error');
+        }
 
         $id = $article->id;
         $this->redis->zscore('article', $id) ? $this->redis->zincrby('article', 1, $id) : $this->redis->zadd('article', 1, $id);
 
         $articleRecordService->insert($id, $ip);
 
-        if(!$data = $articleService->edit($article))
+        if (! $data = $articleService->edit($article)) {
             return view('error.error');
+        }
 
         $data['prev_data'] = Article::where('id', '<', $id)->latest('id')->first();
         $data['next_data'] = Article::where('id', '>', $id)->oldest('id')->first();
 
-        $point = $this->redis->get('likes_count'.$data->id);
+        $point = $this->redis->get('likes_count' . $data->id);
         $status = $this->redis->sismember($data->id, $ip);
 
         return view('home.info', compact('data', 'point', 'status'));
@@ -107,23 +107,23 @@ class IndexController extends Controller
     public function point(Request $request, $id)
     {
         $ip = $request->getClientIp();
-        if(!$article_id = Article::where('id', $id)->value('id'))
+        if (! $article_id = Article::where('id', $id)->value('id')) {
             return ['code' => __LINE__, 'msg' => '点赞失败，请重试！'];
+        }
 
         $this->redis->sadd('article_like', $article_id);
 
-        if($this->redis->sadd($article_id, $ip)){
+        if ($this->redis->sadd($article_id, $ip)) {
             $this->redis->incr('likes_count' . $article_id);
             $this->redis->zadd('user:' . $ip, strtotime(now()), $article_id);
 
             return ['code' => 200, 'msg' => '点赞成功！'];
-        }else{
-            $this->redis->srem($article_id, $ip);
-            $this->redis->decr('likes_count' . $article_id);
-            $this->redis->zrem('user:' . $ip, $article_id);
-
-            return ['code' => 200, 'msg' => '取消点赞！'];
         }
+        $this->redis->srem($article_id, $ip);
+        $this->redis->decr('likes_count' . $article_id);
+        $this->redis->zrem('user:' . $ip, $article_id);
+
+        return ['code' => 200, 'msg' => '取消点赞！'];
     }
 
     /**
@@ -135,10 +135,11 @@ class IndexController extends Controller
     public function message(MessageRequest $request, $id)
     {
         $data = $request->only(['comment', 'pid']) + ['status' => Discuss::STATUS_SHOW , 'article_id' => $id, 'oauth_id' => Auth::guard('oauth')->user()->id];
-        if(Discuss::store($data))
+        if (Discuss::store($data)) {
             return ['code' => 200];
-        else
-            return ['code' => __LINE__, 'msg' =>'评论失败'];
+        }
+
+        return ['code' => __LINE__, 'msg' => '评论失败'];
     }
 
     /**
@@ -160,7 +161,7 @@ class IndexController extends Controller
     {
         $list = Book::latest('id')->paginate(20);
 
-        return view('home.book',compact('list'));
+        return view('home.book', compact('list'));
     }
 
     /**
@@ -172,8 +173,8 @@ class IndexController extends Controller
         $client = new Client();
 
         $list = [];
-        foreach($client->search('james.xue') as $v){
-             Str::startsWith( $v->getName(), 'james.xue') ? $list[] = $this->checkString($v->getName()) : '';
+        foreach ($client->search('james.xue') as $v) {
+            Str::startsWith($v->getName(), 'james.xue') ? $list[] = $this->checkString($v->getName()) : '';
         }
 
         return view('home.packagist', compact('list'));
@@ -197,6 +198,7 @@ class IndexController extends Controller
     public function link()
     {
         $links = Link::where('status', 1)->get();
+
         return view('home.link', compact('links'));
     }
 
@@ -208,10 +210,11 @@ class IndexController extends Controller
     public function postLink(LinkRequest $request)
     {
         $data = $request->only(['name', 'url', 'describe', 'email']) + ['status' => 0, 'created_at' => Carbon::now('Asia/Shanghai'), 'updated_at' => Carbon::now('Asia/Shanghai')];
-        if(Link::create($data))
+        if (Link::create($data)) {
             return ['code' => 200, 'msg' => '申请成功！'];
-        else
-            return ['code' => 201, 'msg' => '申请失败，请重试！'];
+        }
+
+        return ['code' => 201, 'msg' => '申请失败，请重试！'];
     }
 
     /**
@@ -223,11 +226,11 @@ class IndexController extends Controller
      */
     public function getFile($date)
     {
-        $data = Article::where('created_at', 'like', '%'.$date."%")->status()->get()->each(function($item){
+        $data = Article::where('created_at', 'like', '%' . $date . '%')->status()->get()->each(function ($item) {
             return $item->times = date('d日 h:i', strtotime($item['created_at']));
         });
 
-        return view('home.time',compact('data', 'date'));
+        return view('home.time', compact('data', 'date'));
     }
 
     /**
@@ -252,12 +255,13 @@ class IndexController extends Controller
         $visits_count = $echartsService->getVisit();
 
         $data = $echartsService->getEchart();
-        $num = $data->pluck('num')->implode(",");
-        $pub_date = $data->pluck('pub_date')->implode(",");
+        $num = $data->pluck('num')->implode(',');
+        $pub_date = $data->pluck('pub_date')->implode(',');
 
-        $china_data = $visits_count['china_count']->map(function($item){
-            $item->name = str_replace(['省', "市"], ["",""], $item->name);
-             return $item;
+        $china_data = $visits_count['china_count']->map(function ($item) {
+            $item->name = str_replace(['省', '市'], ['',''], $item->name);
+
+            return $item;
         })->toArray();
 
         $china_count = count($visits_count['china_count']);

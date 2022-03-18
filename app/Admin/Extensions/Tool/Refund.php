@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Admin\Extensions\Tool;
 
 use Encore\Admin\Admin;
@@ -47,10 +54,11 @@ SCRIPT;
     {
         Admin::script($this->script());
 
-        if($this->status == 1)
+        if ($this->status == 1) {
             return "<a class='btn btn-xs bg-blue fa grid-check-row status' data-id='{$this->id}' data-url='{$this->url}' data-prefix='{$this->prefix}' title='退款';>退款</a>";
-        else
-            return '';
+        }
+
+        return '';
     }
 
     public function __toString()

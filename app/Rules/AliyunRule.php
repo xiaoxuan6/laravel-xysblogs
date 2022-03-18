@@ -1,9 +1,16 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
 use James\AliGreen\AliGreen;
+use Illuminate\Contracts\Validation\Rule;
 
 class AliyunRule implements Rule
 {
@@ -20,8 +27,8 @@ class AliyunRule implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
@@ -29,13 +36,13 @@ class AliyunRule implements Rule
         $ali = AliGreen::getInstance();
 
         $string = substr($value, 0, 5);
-        if(!in_array($string, ['http:', 'https'])){
+        if (! in_array($string, ['http:', 'https'])) {
             $result = $ali->checkText($value);
-        }else{
+        } else {
             $result = $ali->checkImg($value);
         }
 
-        if($result['code'] != 200){
+        if ($result['code'] != 200) {
             return false;
         }
 

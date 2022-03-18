@@ -1,12 +1,19 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Console\Commands;
 
 use App\Model\Oauth;
 use GuzzleHttp\Client;
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class CreateAvatar extends Command
 {
@@ -43,8 +50,8 @@ class CreateAvatar extends Command
     {
         $url = $this->argument('image');
 
-        $name = Str::after(Str::before($url, '?'), "u/");
-        $filename = 'github/'.$name.'.png';
+        $name = Str::after(Str::before($url, '?'), 'u/');
+        $filename = 'github/' . $name . '.png';
 
         $client = new Client(['verify' => false]);
         $response = $client->get($url, ['save_to' => public_path($filename)]);

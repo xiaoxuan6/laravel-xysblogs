@@ -1,10 +1,16 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Admin\Controllers;
 
 use App\Model\Order;
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
+use Encore\Admin\{Form, Grid};
 
 class AdminController extends BaseController
 {
@@ -21,7 +27,7 @@ class AdminController extends BaseController
      */
     public function model()
     {
-        return new Order;
+        return new Order();
     }
 
     /**
@@ -34,11 +40,10 @@ class AdminController extends BaseController
         $grid->title('标题');
         $grid->created_at('创建时间');
         $grid->updated_at('修改时间');
-        $grid->actions(function ($actions){
+        $grid->actions(function ($actions) {
             $actions->disableView();
         });
     }
-
 
     /**
      * Make a form builder.

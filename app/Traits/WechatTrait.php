@@ -1,15 +1,16 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: james.xue
- * Date: 2019/6/19
- * Time: 18:18
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 namespace App\Traits;
 
-Trait WechatTrait
+trait WechatTrait
 {
-
     /**
      * Notes: 生成唯一订单
      * Date: 2019/6/19 18:26
@@ -28,11 +29,12 @@ Trait WechatTrait
      */
     public function randStr($num = 32)
     {
-        $string = "ABCDEFGHIJKLMNOPQRSTUVWHYZabcdefghijklmnopqrstuvwhyz0123456789";
+        $string = 'ABCDEFGHIJKLMNOPQRSTUVWHYZabcdefghijklmnopqrstuvwhyz0123456789';
 
         $str = '';
-        for($i = 0; $i < $num ; $i++)
+        for ($i = 0; $i < $num ; $i++) {
             $str .= $string[rand($i, strlen($string) - 1)];
+        }
 
         return $str;
     }
@@ -46,7 +48,8 @@ Trait WechatTrait
     public function getSign(array $data)
     {
         ksort($data);
-        $str = http_build_query($data).'&key=' . env('DOME_MCH_KEY');
+        $str = http_build_query($data) . '&key=' . env('DOME_MCH_KEY');
+
         return strtoupper(urlencode(MD5($str)));
     }
 
@@ -58,10 +61,13 @@ Trait WechatTrait
      */
     public function xmlToArray($data = null)
     {
-        if(!$data)  return '';
+        if (! $data) {
+            return '';
+        }
 
         $attr = simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NOCDATA);
-        return json_decode(json_encode($attr),true);
+
+        return json_decode(json_encode($attr), true);
     }
 
     /**
@@ -72,17 +78,19 @@ Trait WechatTrait
      */
     public function arrToXml(array $arr)
     {
-        if(!is_array($arr) || count($arr) == 0) return '';
-        $xml = "<xml>";
-        foreach ($arr as $key=>$val)
-        {
-            if (is_numeric($val)){
-                $xml.="<".$key.">".$val."</".$key.">";
-            }else{
-                $xml.="<".$key."><![CDATA[".$val."]]></".$key.">";
+        if (! is_array($arr) || count($arr) == 0) {
+            return '';
+        }
+        $xml = '<xml>';
+        foreach ($arr as $key => $val) {
+            if (is_numeric($val)) {
+                $xml .= '<' . $key . '>' . $val . '</' . $key . '>';
+            } else {
+                $xml .= '<' . $key . '><![CDATA[' . $val . ']]></' . $key . '>';
             }
         }
-        $xml.="</xml>";
+        $xml .= '</xml>';
+
         return $xml;
     }
 
@@ -97,11 +105,10 @@ Trait WechatTrait
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 
-        if($data)
-        {
+        if ($data) {
             curl_setopt($curl, CURLOPT_POST, 1);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         }
@@ -109,6 +116,7 @@ Trait WechatTrait
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($curl);
         curl_close($curl);
+
         return $output;
     }
 }

@@ -1,16 +1,20 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Admin\Controllers;
 
-use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
-use Encore\Admin\Layout\Content;
 use Illuminate\Http\Request;
+use Encore\Admin\Facades\Admin;
+use Encore\Admin\Layout\Content;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\{Auth, Lang, Redirect, Validator};
 
 class AuthController extends Controller
 {
@@ -21,7 +25,7 @@ class AuthController extends Controller
      */
     public function getLogin()
     {
-        if (!Auth::guard('admin')->guest()) {
+        if (! Auth::guard('admin')->guest()) {
             return redirect(config('admin.route.prefix'));
         }
 
@@ -150,6 +154,7 @@ class AuthController extends Controller
             $footer->disableEditingCheck();
             $footer->disableCreatingCheck();
         });
+
         return $form;
     }
 

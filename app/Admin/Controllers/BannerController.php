@@ -1,15 +1,21 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Admin\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Model\Banner;
-use Encore\Admin\Controllers\HasResourceActions;
-use Encore\Admin\Form;
 use James\Admin\Grid;
+use Encore\Admin\{Form, Show};
+use App\Http\Controllers\Controller;
 //use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
 use James\Admin\Breadcrumb\Layout\Content;
+use Encore\Admin\Controllers\HasResourceActions;
 
 class BannerController extends Controller
 {
@@ -32,7 +38,7 @@ class BannerController extends Controller
     /**
      * Show interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -47,7 +53,7 @@ class BannerController extends Controller
     /**
      * Edit interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -80,14 +86,14 @@ class BannerController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new Banner);
+        $grid = new Grid(new Banner());
         $grid->model()->orderBy('sort', 'asc');
 
         $grid->id('ID');
         $grid->title('标题');
         $grid->url('路由地址');
         $status = [
-            'on'  => ['value' => 1, 'text' => '启用', 'color' => 'success'],
+            'on' => ['value' => 1, 'text' => '启用', 'color' => 'success'],
             'off' => ['value' => 0, 'text' => '禁用', 'color' => 'danger'],
         ];
         $grid->status('状态')->switch($status);
@@ -99,13 +105,14 @@ class BannerController extends Controller
         $grid->disableExport();
         $grid->disableFilter();
         $grid->disableRowSelector();
+
         return $grid;
     }
 
     /**
      * Make a show builder.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @return Show
      */
     protected function detail($id)
@@ -126,20 +133,20 @@ class BannerController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Banner);
+        $form = new Form(new Banner());
         $form->text('title', '标题')->rules('required')->required();
         $form->text('url', '路由')->rules('required')->required();
         $status = [
-            'on'  => ['value' => 1, 'text' => '启用', 'color' => 'success'],
+            'on' => ['value' => 1, 'text' => '启用', 'color' => 'success'],
             'off' => ['value' => 2, 'text' => '禁用', 'color' => 'danger'],
         ];
         $form->switch('status', '状态')->states($status)->default(1);
         $num = Banner::max('sort') + 1;
-        $form->number('sort',"排序")->value($num)->rules(function($form){
-            return 'required|unique:banners,sort,'.$form->model()->id.',id';
+        $form->number('sort', '排序')->value($num)->rules(function ($form) {
+            return 'required|unique:banners,sort,' . $form->model()->id . ',id';
         });
-        $form->radio('type', '类型')->options(['0' => '默认', '1'=> '新窗口'])->default('m');
-        $form->tools(function($tools){
+        $form->radio('type', '类型')->options(['0' => '默认', '1' => '新窗口'])->default('m');
+        $form->tools(function ($tools) {
             $tools->disableView();
             $tools->disableDelete();
         });
@@ -149,6 +156,7 @@ class BannerController extends Controller
             $footer->disableEditingCheck();
             $footer->disableCreatingCheck();
         });
+
         return $form;
     }
 }

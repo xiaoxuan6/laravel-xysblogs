@@ -1,20 +1,18 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Providers;
 
-use App\Http\ViewComposers\CommonComposer;
-use App\Http\ViewComposers\WebComposer;
-use App\Model\ArticleRecord;
-use App\Model\Article;
-use App\Model\Banner;
-use App\Model\Comment;
-use App\Model\Discuss;
-use App\Model\Label;
-use App\Model\Link;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\{DB, Redis};
+use App\Http\ViewComposers\{CommonComposer, WebComposer};
+use App\Model\{Article, ArticleRecord, Banner, Comment, Discuss, Label, Link};
 
 class ComposerServiceProvider extends ServiceProvider
 {
@@ -38,5 +36,4 @@ class ComposerServiceProvider extends ServiceProvider
     {
         //
     }
-
 }

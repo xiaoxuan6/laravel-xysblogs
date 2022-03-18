@@ -1,15 +1,16 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: james.xue
- * Date: 2019/7/2
- * Time: 17:39
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
-
 namespace App\Http\ViewComposers;
 
-use App\Services\WebService;
 use Illuminate\View\View;
+use App\Services\WebService;
 
 class WebComposer
 {

@@ -1,18 +1,25 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Model;
 
-use App\Events\ReplySendMail;
-use App\Observers\DiscussObserve;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
+use App\Observers\DiscussObserve;
 use James\Eloquent\Filter\FilterTrait;
+use Illuminate\Database\Eloquent\Model;
 
 class Discuss extends Model
 {
-    const STATUS_SHOW = 1;  // 显示
-    const STATUS_HIDE = 2;  // 不显示
-    const STATUS_TOP = 3;   // 置顶
+    use FilterTrait;
+    public const STATUS_SHOW = 1;  // 显示
+    public const STATUS_HIDE = 2;  // 不显示
+    public const STATUS_TOP = 3;   // 置顶
 
     protected $table = 'discuss';
 
@@ -23,8 +30,6 @@ class Discuss extends Model
         self::STATUS_HIDE => '不显示',
         self::STATUS_TOP => '置顶',
     ];
-
-    use FilterTrait;
 
     protected static function boot()
     {
@@ -60,17 +65,19 @@ class Discuss extends Model
      */
     protected static function store($data)
     {
-        if($re = self::where('id', $data['pid'])->first()){
-            if($re->status == 3)
+        if ($re = self::where('id', $data['pid'])->first()) {
+            if ($re->status == 3) {
                 $data['ppid'] = $re->id;
-            else{
-                if($re->pid == 0)
+            } else {
+                if ($re->pid == 0) {
                     $data['ppid'] = $re->id;
-                else
+                } else {
                     $data['ppid'] = $re->ppid;
+                }
             }
-        }else
+        } else {
             $data['ppid'] = 0;
+        }
 
         return self::create($data + ['created_at' => Carbon::now('Asia/Shanghai'), 'updated_at' => Carbon::now('Asia/Shanghai')]);
     }

@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,7 +15,7 @@ class Order extends Model
 {
     protected $guarded = [];
 
-    const TRADE_STATUS = [
+    public const TRADE_STATUS = [
         0 => '未支付',
         1 => '支付成功',
         2 => '支付失败',

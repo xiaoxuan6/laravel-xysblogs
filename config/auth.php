@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 return [
 
     /*
@@ -41,7 +48,7 @@ return [
             'provider' => 'users',
         ],
         'oauth' => [
-            'driver'   => 'session',
+            'driver' => 'session',
             'provider' => 'oauths',
         ],
 
@@ -76,7 +83,7 @@ return [
 
         'oauths' => [
             'driver' => 'eloquent',
-            'model'  => App\Model\Oauth::class,
+            'model' => App\Model\Oauth::class,
         ],
     ],
 

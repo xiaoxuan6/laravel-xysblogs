@@ -1,13 +1,19 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Exceptions;
 
+use Lib\Tool;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
-use Illuminate\Validation\ValidationException;
-use Lib\Tool;
 
 class Handler extends ExceptionHandler
 {
@@ -33,15 +39,15 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
+     * @param Exception $exception
      * @return void
      */
     public function report(Exception $exception)
     {
-        if(!env('APP_DEBUG') && $exception->getMessage()){
+        if (! env('APP_DEBUG') && $exception->getMessage()) {
             // 获取本地日志
-            $command = 'cat ' . storage_path('logs/laravel-' .date('Y-m-d'). '.log');
-            $command .= " | grep local.ERROR: | head -10";
+            $command = 'cat ' . storage_path('logs/laravel-' . date('Y-m-d') . '.log');
+            $command .= ' | grep local.ERROR: | head -10';
             exec($command, $logs);
 
             $data = end($logs);
@@ -54,8 +60,8 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param \Illuminate\Http\Request $request
+     * @param Exception $exception
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
@@ -65,20 +71,19 @@ class Handler extends ExceptionHandler
             /**
              * 执行 php artisan down 项目维护页面
              */
-            if($exception instanceof MaintenanceModeException)
-            {
+            if ($exception instanceof MaintenanceModeException) {
                 return response()->view('error.404');
             }
+
             return response()->view('error.error');
-        }elseif($this->isHttpException($exception) == 500){
+        } elseif ($this->isHttpException($exception) == 500) {
             return response()->view('error.500');
         }
 
         /**
          * 定义路由隐式绑定错误码
          */
-        if($exception instanceof ModelNotFoundException)
-        {
+        if ($exception instanceof ModelNotFoundException) {
             return response()->json(['errcode' => __LINE__, 'errmsg' => '暂无数据']);
         }
 

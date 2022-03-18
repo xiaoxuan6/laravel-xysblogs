@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 return [
 
     /*
@@ -52,14 +59,14 @@ return [
     // 百度翻译
     'baidu_translate' => [
         'appid' => env('BAIDU_TRANSLATE_APPID'),
-        'key'   => env('BAIDU_TRANSLATE_KEY'),
+        'key' => env('BAIDU_TRANSLATE_KEY'),
     ],
 
     // 腾讯地图
     'map_api' => [
         'list_api_id' => env('TENCENT_MAP_LIST_API'),
         'api_id' => env('TENCENT_MAP_IP_API'),
-        'key'   => env('TENCENT_MAP_KEY'),
+        'key' => env('TENCENT_MAP_KEY'),
     ],
 
     // sms 短信

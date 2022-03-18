@@ -1,13 +1,19 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Providers;
 
-use App\Validators\PhoneValidator;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\ServiceProvider;
 use Laravel\Horizon\Horizon;
+use App\Validators\PhoneValidator;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\{Schema, Validator};
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
         /**
          * 增加内存防止中文分词报错
          */
-        ini_set('memory_limit', "256M");
+        ini_set('memory_limit', '256M');
 
         $this->registerValidator();
 
@@ -43,8 +49,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerValidator()
     {
-        foreach ($this->validators as $key => $value)
-        {
+        foreach ($this->validators as $key => $value) {
             Validator::extend($key, $value);
         }
     }

@@ -1,13 +1,20 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 use Illuminate\Routing\Router;
 
 Admin::registerAuthRoutes();
 // 测试发送邮件
 //Route::get('admin/send-mail/{username}/{password}', 'App\Admin\Controllers\RegisterController@sendEmail');
 Route::group([
-    'prefix'        => config('admin.route.prefix'),
-    'namespace'     => config('admin.route.namespace'),
+    'prefix' => config('admin.route.prefix'),
+    'namespace' => config('admin.route.namespace'),
 ], function (Router $router) {
     // 注册
     $router->get('auth/register', 'RegisterController@index');
@@ -17,9 +24,9 @@ Route::group([
 });
 
 Route::group([
-    'prefix'        => config('admin.route.prefix'),
-    'namespace'     => config('admin.route.namespace'),
-    'middleware'    => config('admin.route.middleware'),
+    'prefix' => config('admin.route.prefix'),
+    'namespace' => config('admin.route.namespace'),
+    'middleware' => config('admin.route.middleware'),
 ], function (Router $router) {
     // 登录
     $router->get('auth/login', 'AuthController@getLogin');
@@ -52,6 +59,4 @@ Route::group([
     $router->resource('link', LinkController::class);
     $router->resource('order', OrderController::class);
     $router->resource('base', AdminController::class);
-
-
 });

@@ -1,11 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: james.xue
- * Date: 2019/8/1
- * Time: 18:45
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
-
 namespace App\Lib;
 
 use GuzzleHttp\Client;
@@ -19,7 +20,7 @@ class SlugTranslate
             return str_slug($text);
         }
 
-        $http = new Client;
+        $http = new Client();
 
         $api = 'http://api.fanyi.baidu.com/api/trans/vip/translate?';
         $appid = config('services.baidu_translate.appid');
@@ -33,26 +34,26 @@ class SlugTranslate
 
         // http://api.fanyi.baidu.com/api/trans/product/apidoc
         // appid+q+salt+ÃÜÔ¿ µÄMD5Öµ
-        $sign = md5($appid. $text . $salt . $key);
+        $sign = md5($appid . $text . $salt . $key);
 
         $query = http_build_query([
-            "q"     =>  $text,
-            "from"  => "zh",
-            "to"    => "en",
-            "appid" => $appid,
-            "salt"  => $salt,
-            "sign"  => $sign,
+            'q' => $text,
+            'from' => 'zh',
+            'to' => 'en',
+            'appid' => $appid,
+            'salt' => $salt,
+            'sign' => $sign,
         ]);
-        $url = $api.$query;
+        $url = $api . $query;
 
         $response = $http->get($url);
 
         $result = json_decode($response->getBody(), true);
         if (isset($result['trans_result'][0]['dst'])) {
             return str_slug($result['trans_result'][0]['dst']);
-        } else {
-            return static::pinyin($text);
         }
+
+        return static::pinyin($text);
     }
 
     public static function pinyin($text)

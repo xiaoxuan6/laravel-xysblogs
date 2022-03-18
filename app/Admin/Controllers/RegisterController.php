@@ -1,20 +1,23 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Admin\Controllers;
 
-use App\Events\RegisterSendMail;
-use App\Http\Controllers\Controller;
 use App\Lib\Sms;
-use App\Model\AdminRoleUser;
-use App\Model\AdminUser;
-use Encore\Admin\Layout\Content;
 use Illuminate\Http\Request;
+use Encore\Admin\Layout\Content;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
-use Lib\Tool;
+use App\Model\{AdminRoleUser, AdminUser};
 
 class RegisterController extends Controller
 {
-
     /**
      * Index interface.
      *
@@ -37,33 +40,36 @@ class RegisterController extends Controller
         $phone = $request->input('phone');
         $username = $request->input('username');
 
-        if(Redis::get('captcha_'.$username))
+        if (Redis::get('captcha_' . $username)) {
             return ['code' => __LINE__, 'msg' => '发送失败，30秒内只能发送一次！'];
+        }
 
-        $random = substr(base_convert(md5(uniqid(md5(microtime(true)),true)), 16, 10), 0, 6);
+        $random = substr(base_convert(md5(uniqid(md5(microtime(true)), true)), 16, 10), 0, 6);
         $sms = new Sms();
         $re = $sms->sendSingle($phone, $random, '5');
 
-        if(!$re)
+        if (! $re) {
             return ['code' => __LINE__, 'msg' => '发送失败！'];
-        else{
-            Redis::setex('captcha_'.$username, 300, $random);
-            return ['code' => 200, 'msg' => '发送成功！'];
         }
+
+        Redis::setex('captcha_' . $username, 300, $random);
+
+        return ['code' => 200, 'msg' => '发送成功！'];
     }
 
     /*
-	* 注册
+    * 注册
     */
     public function postRegister(Request $request)
     {
         $data = $request->only(['username', 'password']);
-        if(AdminUser::where('username', $data['username'])->first())
+        if (AdminUser::where('username', $data['username'])->first()) {
             return ['code' => __LINE__, 'msg' => '此用户已注册！'];
+        }
 
         $captcha = $request->input('captcha');
-        $random = Redis::get('captcha_'.$data['username']);
-        if($captcha != $random){
+        $random = Redis::get('captcha_' . $data['username']);
+        if ($captcha != $random) {
             return ['code' => __LINE__, 'msg' => '验证码无效，请重试！'];
         }
 
@@ -73,5 +79,4 @@ class RegisterController extends Controller
 
         return ['code' => 200, 'msg' => '注册成功！'];
     }
-
 }

@@ -1,24 +1,25 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: james.xue
- * Date: 2019/7/2
- * Time: 16:52
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
-
 namespace App\Services;
 
-use App\Model\Article;
-use App\Model\ArticleRecord;
 use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
+use App\Model\{Article, ArticleRecord};
 
 class ArticleRecordService
 {
     public function insert($id, $ip)
     {
-        if(ArticleRecord::where(['article_id' => $id, 'ip' => $ip])->first())
+        if (ArticleRecord::where(['article_id' => $id, 'ip' => $ip])->first()) {
             return false;
+        }
 
         Article::where('id', $id)->increment('view');
 
@@ -45,10 +46,11 @@ class ArticleRecordService
      */
     private function getAddress($ip)
     {
-        $url = config('services.map_api.api_id'). "?ip=". $ip . '&key=' .config('services.map_api.key');
+        $url = config('services.map_api.api_id') . '?ip=' . $ip . '&key=' . config('services.map_api.key');
 
         $client = new Client();
         $data = $client->get($url);
+
         return $result = json_decode($data->getBody(), true);
     }
 
@@ -58,6 +60,6 @@ class ArticleRecordService
      */
     private function getAreaInfo()
     {
-        $url = config('services.map_api.list_api_id'). '?key=' .config('services.map_api.key');
+        $url = config('services.map_api.list_api_id') . '?key=' . config('services.map_api.key');
     }
 }

@@ -1,14 +1,18 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Admin\Controllers;
 
-use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\HasResourceActions;
-use Encore\Admin\Facades\Admin;
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
+use App\Http\Controllers\Controller;
+use Encore\Admin\{Form, Grid, Show};
+use Encore\Admin\Controllers\HasResourceActions;
 
 class UserController extends Controller
 {
@@ -31,7 +35,7 @@ class UserController extends Controller
     /**
      * Show interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -46,7 +50,7 @@ class UserController extends Controller
     /**
      * Edit interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -90,7 +94,7 @@ class UserController extends Controller
         $grid->roles(trans('admin.roles'))->pluck('name')->label();
         $states = [
             'off' => ['value' => 0, 'text' => '禁用', 'color' => 'default'],
-            'on'  => ['value' => 1, 'text' => '启用', 'color' => 'primary'],
+            'on' => ['value' => 1, 'text' => '启用', 'color' => 'primary'],
         ];
         $grid->enabled('状态')->switch($states);
         $grid->created_at(trans('admin.created_at'));
@@ -113,7 +117,7 @@ class UserController extends Controller
     /**
      * Make a show builder.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @return Show
      */
     protected function detail($id)
@@ -166,7 +170,7 @@ class UserController extends Controller
         $form->multipleSelect('roles', trans('admin.roles'))->options($roleModel::all()->pluck('name', 'id'));
         $form->multipleSelect('permissions', trans('admin.permissions'))->options($permissionModel::all()->pluck('name', 'id'));
         $states = [
-            'on'  => ['value' => 1, 'text' => '启用', 'color' => 'success'],
+            'on' => ['value' => 1, 'text' => '启用', 'color' => 'success'],
             'off' => ['value' => 0, 'text' => '禁用', 'color' => 'danger'],
         ];
         $form->switch('enabled', '状态')->states($states)->default(1);

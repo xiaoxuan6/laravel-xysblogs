@@ -1,15 +1,16 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: james.xue
- * Date: 2019/7/2
- * Time: 18:35
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
-
 return [
     'lang' => [
-        "create"    => '新增',
-        "edit"      => '编辑',
-        "comment"   => '评论',
+        'create' => '新增',
+        'edit' => '编辑',
+        'comment' => '评论',
     ],
 ];

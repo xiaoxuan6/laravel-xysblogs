@@ -1,15 +1,22 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 return [
     'alipay' => [
         // 支付宝分配的 APPID
         'app_id' => env('ALI_APP_ID', ''),
 
         // 支付宝异步通知地址
-        'notify_url' => env('APP_URL').'/pay/notify',
+        'notify_url' => env('APP_URL') . '/pay/notify',
 
         // 支付成功后同步通知地址
-        'return_url' => env('APP_URL').'/pay/list',
+        'return_url' => env('APP_URL') . '/pay/list',
 
         // 阿里公共密钥，验证签名时使用
         'ali_public_key' => env('ALI_PUBLIC_KEY', ''),

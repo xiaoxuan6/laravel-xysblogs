@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 return [
 
     /*
@@ -169,8 +176,8 @@ return [
         # 加载全局数据
         App\Providers\ComposerServiceProvider::class,
         /**
-        * TNTSearch 全文搜索
-        */
+         * TNTSearch 全文搜索
+         */
         Laravel\Scout\ScoutServiceProvider::class,
         Vanry\Scout\TNTSearchScoutServiceProvider::class,
         # 支付
@@ -230,14 +237,14 @@ return [
         # 第三方登录gitHub
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Pay' => Yansongda\LaravelPay\Facades\Pay::class,
-        'Avatar'    => Laravolt\Avatar\Facade::class,
+        'Avatar' => Laravolt\Avatar\Facade::class,
         'Pinyin' => Overtrue\LaravelPinyin\Facades\Pinyin::class,
     ],
 
     // 公共部分共享数据缓存时间（分钟）
     'limit_ttl' => 30,
     // echarts 缓存时间（分钟）
-    'echarts_yesterday_limit_ttl' => 60*24,
-    'echarts_week_limit_ttl' => 60*24*7,
-    'echarts_month_limit_ttl' => 60*24*30,
+    'echarts_yesterday_limit_ttl' => 60 * 24,
+    'echarts_week_limit_ttl' => 60 * 24 * 7,
+    'echarts_month_limit_ttl' => 60 * 24 * 30,
 ];

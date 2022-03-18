@@ -1,11 +1,16 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Listeners;
 
-use App\Events\ReplySendMail;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Lib\Tool;
+use App\Events\ReplySendMail;
 
 class ReplySendMailListener
 {
@@ -22,13 +27,13 @@ class ReplySendMailListener
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param object $event
      * @return void
      */
     public function handle(ReplySendMail $event)
     {
         $contact = $event->comments->oauth->email;
-        if(!$contact){
+        if (! $contact) {
             return false;
         }
 

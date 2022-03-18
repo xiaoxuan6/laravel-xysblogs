@@ -1,8 +1,15 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 Route::redirect('/admin', '/');
 
-Route::group(['middleware' => 'web'],function(){
+Route::group(['middleware' => 'web'], function () {
     // 后台第三方登录
     Route::get('admins/oauth/github', 'Auth\AdminLoginController@login');
     Route::get('/oauth/github/callback', 'Auth\AdminLoginController@postLogin');
@@ -11,8 +18,9 @@ Route::group(['middleware' => 'web'],function(){
     Route::any('web/oauth/github/callback', 'OauthController@postLogin');
     Route::get('web/oauth/github/logout', 'OauthController@logout');
 
-    Route::get('login', function(){
+    Route::get('login', function () {
         \Illuminate\Support\Facades\Session::put('url', \url()->previous());
+
         return view('home.login');
     });
     // 首页
@@ -33,11 +41,11 @@ Route::group(['middleware' => 'web'],function(){
     Route::get('search', 'IndexController@search');
 
     // 友链
-    Route::get('link', "IndexController@link");
-    Route::post('link/create', "IndexController@postLink");
+    Route::get('link', 'IndexController@link');
+    Route::post('link/create', 'IndexController@postLink');
 
     // 文档归案
-    Route::get('article/{date}', "IndexController@getFile");
+    Route::get('article/{date}', 'IndexController@getFile');
 
     // 日志
     Route::get('log', 'LogController@index');
@@ -58,5 +66,3 @@ Route::group(['middleware' => 'web'],function(){
 
 // 支付回调
 Route::post('pay/notify', 'PayController@notify');
-
-

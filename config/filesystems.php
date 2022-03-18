@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 return [
 
     /*
@@ -51,15 +58,15 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
 
         'admin' => [
             'driver' => 'local',
             'root' => public_path('public'),
-            'url' => env('APP_URL').'/public',
-            'visibility' =>'public',
+            'url' => env('APP_URL') . '/public',
+            'visibility' => 'public',
         ],
 
         's3' => [
@@ -73,17 +80,17 @@ return [
 
         'cosv5' => [
             'driver' => 'cosv5',
-            'region'          => env('COS_REGION'),    // 储存地区   https://cloud.tencent.com/document/product/436/6224
-            'credentials'     => [
-                'appId'     => env('COS_APPID'),    // 开发者访问 COS 服务时拥有的用户维度唯一资源标识，用以标识资源
-                'secretId'  => env('COS_SECRET_ID'),    // 开发者拥有的项目身份识别 ID，用以身份认证
+            'region' => env('COS_REGION'),    // 储存地区   https://cloud.tencent.com/document/product/436/6224
+            'credentials' => [
+                'appId' => env('COS_APPID'),    // 开发者访问 COS 服务时拥有的用户维度唯一资源标识，用以标识资源
+                'secretId' => env('COS_SECRET_ID'),    // 开发者拥有的项目身份识别 ID，用以身份认证
                 'secretKey' => env('COS_SECRET_KEY'),    // 开发者拥有的项目身份密钥
             ],
-            'timeout'         => 60,
+            'timeout' => 60,
             'connect_timeout' => 60,
-            'bucket'          => env('COS_BUCKET'),    // COS 中用于存储数据的容器
-            'cdn'             => env('COS_CDN'), // 访问地址
-            'scheme'          => 'https',
+            'bucket' => env('COS_BUCKET'),    // COS 中用于存储数据的容器
+            'cdn' => env('COS_CDN'), // 访问地址
+            'scheme' => 'https',
         ],
 
     ],

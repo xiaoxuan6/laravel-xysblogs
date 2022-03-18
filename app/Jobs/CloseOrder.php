@@ -1,17 +1,26 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Jobs;
 
 use App\Model\Order;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\{InteractsWithQueue, SerializesModels};
 
 class CloseOrder implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $order;
 
@@ -34,10 +43,10 @@ class CloseOrder implements ShouldQueue
     public function handle()
     {
         // 这里操作数据库
-        if($this->order->trade_status != 0)
+        if ($this->order->trade_status != 0) {
             return ;
+        }
 
         $this->order->update(['trade_status' => 2]);
-
     }
 }

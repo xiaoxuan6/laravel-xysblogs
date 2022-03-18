@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Admin\Extensions\Tool;
 
 use Encore\Admin\Admin;
@@ -10,7 +17,7 @@ class Aactions
     protected $status;
     protected $prefix;
 
-    public function __construct($id,$status)
+    public function __construct($id, $status)
     {
         $this->id = $id;
         $this->status = $status;
@@ -54,11 +61,11 @@ SCRIPT;
 
         if ($this->status == 1) {
             return "<a class='btn btn-xs bg-blue fa grid-check-row status' data-id='{$this->id}' data-status='2' data-prefix='{$this->prefix}' title='隐藏';>隐藏</a>&nbsp;<a class='btn btn-xs bg-red fa grid-check-row status' data-id='{$this->id}' data-status='3' data-prefix='{$this->prefix}' title='置顶';>置顶</a>";
-        } elseif ($this->status == 2){
+        } elseif ($this->status == 2) {
             return "<a class='btn btn-xs bg-green fa grid-check-row status' data-id='{$this->id}' data-status='1' data-prefix='{$this->prefix}' title='显示';>显示</a>&nbsp;<a class='btn btn-xs bg-red fa grid-check-row status' data-id='{$this->id}' data-status='3' data-prefix='{$this->prefix}' title='置顶';>置顶</a>";
-        }else {
-            return "<a class='btn btn-xs bg-green fa grid-check-row status' data-id='{$this->id}' data-status='1' data-prefix='{$this->prefix}' title='显示';>显示</a>&nbsp;<a class='btn btn-xs bg-blue fa grid-check-row status' data-id='{$this->id}' data-status='2' data-prefix='{$this->prefix}' title='隐藏';>隐藏</a>";
         }
+
+        return "<a class='btn btn-xs bg-green fa grid-check-row status' data-id='{$this->id}' data-status='1' data-prefix='{$this->prefix}' title='显示';>显示</a>&nbsp;<a class='btn btn-xs bg-blue fa grid-check-row status' data-id='{$this->id}' data-status='2' data-prefix='{$this->prefix}' title='隐藏';>隐藏</a>";
     }
 
     public function __toString()

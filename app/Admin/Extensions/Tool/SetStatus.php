@@ -1,6 +1,14 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Admin\Extensions\Tool;
+
 use Encore\Admin\Grid\Tools\BatchAction;
 
 class SetStatus extends BatchAction
@@ -49,6 +57,5 @@ $('{$this->getElementClass()}').on('click', function() {
 });
 
 EOT;
-
     }
 }

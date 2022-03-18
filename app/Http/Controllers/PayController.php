@@ -1,12 +1,19 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Http\Controllers;
 
-use App\Jobs\CloseOrder;
-use App\Model\Order;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Pay;
+use Carbon\Carbon;
+use App\Model\Order;
+use App\Jobs\CloseOrder;
+use Illuminate\Http\Request;
 
 class PayController extends Controller
 {
@@ -23,9 +30,9 @@ class PayController extends Controller
         ];
 
         $create_order = Order::create([
-            'out_trade_no'  => $out_trade_no,
-            'title'  => $subject,
-            'total_amount'  => $total,
+            'out_trade_no' => $out_trade_no,
+            'title' => $subject,
+            'total_amount' => $total,
         ]);
 
         $this->dispatch(new CloseOrder($create_order, env('ORDER_TTL', 120)));
@@ -40,7 +47,7 @@ class PayController extends Controller
         Pay::alipay()->verify();
 
         $data = Order::latest()->limit(5)->get()->toArray();
-        array_walk($data, function(&$item){
+        array_walk($data, function (&$item) {
             $item['pay_time'] = date('Y-m-d', strtotime($item['pay_time']));
             $item['trade_status'] = Order::TRADE_STATUS[$item['trade_status']];
         });
@@ -54,17 +61,19 @@ class PayController extends Controller
         $data = Pay::alipay()->verify();
 
         // 如果订单状态不是成功或者结束，则不走后续的逻辑
-        if(!in_array($data->trade_status, ['TRADE_SUCCESS', 'TRADE_FINISHED'])) {
+        if (! in_array($data->trade_status, ['TRADE_SUCCESS', 'TRADE_FINISHED'])) {
             return Pay::alipay()->success();
         }
 
         // 查询订单
-        if(!$order = Order::where('out_trade_no', $data->out_trade_no)->first())
+        if (! $order = Order::where('out_trade_no', $data->out_trade_no)->first()) {
             return 'fail';
+        }
 
         // 已支付
-        if($order->trade_status == 1)
-            return Pay::alipay()->success(); // // 返回数据给支付宝
+        if ($order->trade_status == 1) {
+            return Pay::alipay()->success();
+        } // // 返回数据给支付宝
 
         $order->update([
             'pay_time' => Carbon::now(),

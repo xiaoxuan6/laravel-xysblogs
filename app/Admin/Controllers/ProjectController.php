@@ -1,15 +1,21 @@
 <?php
-
+/**
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 namespace App\Admin\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Model\Project;
-use Encore\Admin\Controllers\HasResourceActions;
-use Encore\Admin\Form;
 use James\Admin\Grid;
+use App\Model\Project;
+use Encore\Admin\{Form, Show};
+use App\Http\Controllers\Controller;
 //use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
 use James\Admin\Breadcrumb\Layout\Content;
+use Encore\Admin\Controllers\HasResourceActions;
 
 class ProjectController extends Controller
 {
@@ -32,7 +38,7 @@ class ProjectController extends Controller
     /**
      * Show interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -47,7 +53,7 @@ class ProjectController extends Controller
     /**
      * Edit interface.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -80,15 +86,15 @@ class ProjectController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new Project);
-        $grid->model()->orderBy('id','desc');
+        $grid = new Grid(new Project());
+        $grid->model()->orderBy('id', 'desc');
         $grid->id('ID')->sortable();
         $grid->name('项目名称')->editable();
         $grid->url('项目地址')->link();
         $grid->username('账号');
         $grid->password('密码');
         $status = [
-            'on'  => ['value' => 1, 'text' => '启用', 'color' => 'success'],
+            'on' => ['value' => 1, 'text' => '启用', 'color' => 'success'],
             'off' => ['value' => 0, 'text' => '禁用', 'color' => 'danger'],
         ];
         $grid->status('状态')->switch($status);
@@ -99,13 +105,14 @@ class ProjectController extends Controller
         $grid->disableFilter();
         $grid->disableExport();
         $grid->disableRowSelector();
+
         return $grid;
     }
 
     /**
      * Make a show builder.
      *
-     * @param mixed   $id
+     * @param mixed $id
      * @return Show
      */
     protected function detail($id)
@@ -126,16 +133,16 @@ class ProjectController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Project);
+        $form = new Form(new Project());
         $form->text('name', '项目名称')->rules('required')->required();
         $form->url('url', '项目地址')->rules('required')->required();
         $form->text('username', '账号');
         $form->text('password', '密码');
         $status = [
-            'on'  => ['value' => 1, 'text' => '启用', 'color' => 'success'],
+            'on' => ['value' => 1, 'text' => '启用', 'color' => 'success'],
             'off' => ['value' => 2, 'text' => '禁用', 'color' => 'danger'],
         ];
-        $form->switch('status','状态')->states($status)->default(1);
+        $form->switch('status', '状态')->states($status)->default(1);
         $form->tools(function (Form\Tools $tools) {
             $tools->disableDelete();
             $tools->disableView();
@@ -146,6 +153,7 @@ class ProjectController extends Controller
             $footer->disableEditingCheck();
             $footer->disableCreatingCheck();
         });
+
         return $form;
     }
 }
