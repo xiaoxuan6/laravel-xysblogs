@@ -17,3 +17,4 @@ yarn-error.log
 .phpunit.result.cache
 .user.ini
 .php-cs-fixer.cache
+composer.lock
