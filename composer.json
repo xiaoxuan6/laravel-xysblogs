@@ -72,7 +72,8 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
-        ]
+        ],
+        "fix-style": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --using-cache=no --ansi"
     },
     "config": {
         "preferred-install": "dist",
@@ -82,9 +83,6 @@
             "ext-pcntl": "7.2",
             "ext-posix": "7.2"
         }
-    },
-    "scripts": {
-        "fix-style": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --using-cache=no --ansi"
     },
     "scripts-descriptions": {
         "fix-style": "Run style checks and fix violations."
