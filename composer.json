@@ -20,7 +20,7 @@
         "laravel/framework": "5.7.*",
         "laravel/horizon": "2.0",
         "laravel/tinker": "^1.0",
-        "laravolt/avatar": "^2.2",
+        "laravolt/avatar": "^3.2",
         "maatwebsite/excel": "3.*",
         "mews/captcha": "^2.2",
         "overtrue/laravel-pinyin": "^4.0",
