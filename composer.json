@@ -15,7 +15,7 @@
         "james.xue/laravel-admin-breadcrumb": "1.1.2",
         "james.xue/laravel-admin-grid": "^1.1",
         "james.xue/laravel-admin-sortable": "^1.0",
-        "james.xue/laravel-eloquent-filter": "^2.0",
+        "james.xue/laravel-eloquent-filter": "^3.0",
         "knplabs/packagist-api": "^1.5",
         "laravel-admin-ext/grid-lightbox": "^1.0",
         "laravel/framework": "5.7.*",
