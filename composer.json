@@ -11,7 +11,7 @@
         "freyo/flysystem-qcloud-cos-v5": "^1.1",
         "fukuball/jieba-php": "^0.33.0",
         "guzzlehttp/guzzle": "^6.3",
-        "james.xue/ali-safe-api": "^1.2",
+        "james.xue/ali-safe-api": "^2.0",
         "james.xue/laravel-admin-breadcrumb": "1.1.2",
         "james.xue/laravel-admin-grid": "^1.1",
         "james.xue/laravel-admin-sortable": "^1.0",
