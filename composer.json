@@ -17,7 +17,7 @@
         "james.xue/laravel-eloquent-filter": "^3.0",
         "knplabs/packagist-api": "^1.5",
         "laravel-admin-ext/grid-lightbox": "^1.0",
-        "laravel/framework": "5.7.*",
+        "laravel/framework": "6.20.*",
         "laravel/tinker": "^1.0",
         "laravolt/avatar": "^3.2",
         "maatwebsite/excel": "3.*",
