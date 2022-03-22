@@ -18,7 +18,7 @@
         "knplabs/packagist-api": "^1.5",
         "laravel-admin-ext/grid-lightbox": "^1.0",
         "laravel/framework": "6.20.*",
-        "laravel/tinker": "^1.0",
+        "laravel/tinker": "^2.7",
         "laravolt/avatar": "^3.2",
         "maatwebsite/excel": "3.*",
         "mews/captcha": "^3.2",
