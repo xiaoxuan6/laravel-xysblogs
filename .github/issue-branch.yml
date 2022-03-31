@@ -8,7 +8,7 @@ branches:
   - label: '*'
     prefix: issues/
 
-openPR: true
+#openPR: true
 
 autoCloseIssue: true
 
