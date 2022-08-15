@@ -9,7 +9,7 @@
         "encore/laravel-admin": "^1.6",
         "fideloper/proxy": "^4.0",
         "freyo/flysystem-qcloud-cos-v5": "^2.2",
-        "fukuball/jieba-php": "^0.33.0",
+        "fukuball/jieba-php": "^0.34",
         "guzzlehttp/guzzle": "^7.4",
         "james.xue/laravel-admin-breadcrumb": "1.3.0",
         "james.xue/laravel-admin-grid": "^1.1",
